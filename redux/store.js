@@ -1,3 +1,6 @@
+import NurserySlice from "./slices/NurserySlice";
+import onboardingCaretakerSlice from "./slices/onboardingCaretakerSlice";
+import onboardingPatientSlice from "./slices/onboardingPatientSlice";
 import onboardingStudentsSlice from "./slices/onboardingStudentsSlice";
 
 const { configureStore } = require("@reduxjs/toolkit");
@@ -6,6 +9,9 @@ const { configureStore } = require("@reduxjs/toolkit");
 export const store = configureStore({
   reducer: {
     onboarding: onboardingStudentsSlice,
+    createCaretaker: onboardingCaretakerSlice,
+    createPatinet: onboardingPatientSlice,
+    nursery: NurserySlice
   },
 });
 

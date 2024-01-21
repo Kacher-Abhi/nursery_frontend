@@ -5,7 +5,8 @@ import TextInput from "@/components/FormInputs/TextInput";
 import {
   setCurrentStep,
   updateFormData,
-} from "@/redux/slices/onboardingStudentsSlice";
+  updatePatientFormData,
+} from "@/redux/slices/onboardingPatientSlice";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,9 +14,11 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 
-export default function AdminCreationForm({ setEmail, nursery }) {
+export default function PatientPersonalINfo({ setEmail, nursery }) {
   const currentStep = useSelector((store) => store.onboarding.currentStep);
   const formData = useSelector((store) => store.onboarding.formData);
+  const nurseryId = useSelector((store) => store.nursery.nurseryId);
+
   console.log(formData, currentStep);
   const [loading, setLoading] = useState(false);
   const gender = [
@@ -37,23 +40,27 @@ export default function AdminCreationForm({ setEmail, nursery }) {
   } = useForm({
   });
 
-  const createAdmin = async (data) => {
+  const createPatient = async (data) => {
     try {
       const formData = new FormData();
-      formData.append('nurseryId', nursery);  // Fix typo in 'nurseryId'
+      formData.append('nurseryId', nurseryId);  // Fix typo in 'nurseryId'
       for (const key in data) {
+        if(key.dob){
+            continue;
+        }
         formData.append(key, data[key]);
       }
-      const response = await axios.post('http://localhost:8080/admins/createAdmin', formData, {
+      const response = await axios.post('http://localhost:8080/patients/createPatient', formData, {
         headers: {
           'accept': 'application/json',
           'content-type': 'application/json;charset=utf-8',
         },
       });
 
-      return { flag: true, message: 'Admin Created' };
+      return { flag: true, message: 'Patient Created' };
+    // console.log("Patient created");
     } catch (error) {
-      console.error('An error occurred:', error.response.data);
+      // console.error('An error occurred:', error.message);
       return { flag: false, message: error.response.data };
     }
   };
@@ -77,10 +84,12 @@ export default function AdminCreationForm({ setEmail, nursery }) {
 
   const dispatch = useDispatch();
   async function processData(data) {
-    const { flag, message } = await createAdmin(data);
+    const age = calculateAge(data.dob);
+    const newData = { ...data, age };
+    const { flag, message } = await createPatient(newData);
     setEmail(data['email'])
     if (flag) {
-      dispatch(updateFormData(data));
+      dispatch(updatePatientFormData(newData));
       dispatch(setCurrentStep(currentStep + 1));
       toast.success(message);
     } else {
@@ -90,9 +99,10 @@ export default function AdminCreationForm({ setEmail, nursery }) {
   return (
     <form className="px-12 py-4" onSubmit={handleSubmit(processData)}>
       <div className="mb-8">
-        {nursery}
+      {nursery}
         <h5 className="text-xl md:text-3xl font-bold text-gray-900 dark:text-white">
-          Admin Info
+          Patient Info
+          
         </h5>
         <p>Please provide your name,email address,and phone number.</p>
       </div>
@@ -120,7 +130,7 @@ export default function AdminCreationForm({ setEmail, nursery }) {
         />
         <TextInput
           label="Phone Number"
-          name="phone_number"
+          name="phoneNumber"
           register={register}
           errors={errors}
         />
@@ -131,13 +141,13 @@ export default function AdminCreationForm({ setEmail, nursery }) {
           register={register}
           errors={errors}
         />
-        {/* <TextInput
+        <TextInput
           label="Date of Birth"
           type="date"
           name="dob"
           register={register}
           errors={errors}
-        /> */}
+        />
         <SelectInput
           label="Select your Gender"
           name="sex"

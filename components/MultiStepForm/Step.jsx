@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 export default function Step({ step }) {
   const { number, title } = step;
-  const currentStep = useSelector((store) => store.onboarding.currentStep);
+  const currentStep = useSelector((store) => store.nursery.currentStep);
   return (
     <div className="flex flex-col md:flex-row items-center gap-3 ">
       <div
