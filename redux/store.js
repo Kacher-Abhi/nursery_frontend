@@ -1,3 +1,4 @@
+import CurrentUserSlice from "./slices/CurrentUserSlice";
 import NurserySlice from "./slices/NurserySlice";
 import onboardingCaretakerSlice from "./slices/onboardingCaretakerSlice";
 import onboardingPatientSlice from "./slices/onboardingPatientSlice";
@@ -11,7 +12,8 @@ export const store = configureStore({
     onboarding: onboardingStudentsSlice,
     createCaretaker: onboardingCaretakerSlice,
     createPatinet: onboardingPatientSlice,
-    nursery: NurserySlice
+    nursery: NurserySlice,
+    currentUser: CurrentUserSlice
   },
 });
 

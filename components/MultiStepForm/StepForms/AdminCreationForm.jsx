@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Cookies from "js-cookie";
 
 
 export default function AdminCreationForm({ setEmail, nursery }) {
@@ -48,6 +49,8 @@ export default function AdminCreationForm({ setEmail, nursery }) {
         headers: {
           'accept': 'application/json',
           'content-type': 'application/json;charset=utf-8',
+          'Authorization': Cookies.get('jwt'),
+          'tenant': 'nurs77'
         },
       });
 

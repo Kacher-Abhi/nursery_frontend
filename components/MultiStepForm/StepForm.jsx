@@ -13,9 +13,9 @@ export default function StepForm() {
   const [email, setEmail] = useState(null);
 
   function renderFormByStep(step) {
-    if (step === 2) {
+    if (step === 1) {
       return <NurseryCreationForm setNursery={setNursery} />;
-    } else if (step === 1) {
+    } else if (step === 2) {
       return <AdminCreationForm setEmail={setEmail} nursery={nursery} />;
     } else if (step === 3) {
       return <FormConfirmation emailSend={email} />;
