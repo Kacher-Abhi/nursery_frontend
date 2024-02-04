@@ -13,9 +13,9 @@ const LoginForm = ({ nursery }) => {
     const nuseryId = useSelector((store) => store.currentUser.nurseryId);
     const dispatch = useDispatch();
     const router = useRouter();
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(setNurseryId(nursery.nurseryId))
-    },[])
+    }, [])
     const initialValues = {
         nurseryId: nursery.nurseryId,
         email: '',
@@ -23,13 +23,13 @@ const LoginForm = ({ nursery }) => {
     };
 
     const validationSchema = Yup.object({
-        email: Yup.string().matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/,'Invalid email address').required('Required'),
+        email: Yup.string().matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid email address').required('Required'),
         password: Yup.string().required('Required'),
     });
 
     const onSubmit = async (values, { setSubmitting, resetForm }) => {
-        // Handle form submission here
-        console.log("nurseryId",nuseryId)
+        console.log('onSubmit function is called!');
+        console.log("nurseryId", nuseryId)
         console.log(values, "values");
         setSubmitting(false);
         try {
@@ -39,21 +39,24 @@ const LoginForm = ({ nursery }) => {
             formData.append('password', values.password);
 
 
-            const response = await fetch('http://localhost:8080/auth/token', {
+            const response = await fetch('/api/auth/token', {
                 method: 'POST',
                 body: formData,
             });
 
 
-
+            const responseData = await response.json();
 
             if (response.ok) {
-                const data = await response.json();
-                const { token, expires, role } = data;
+                const data = response;
+                const { token, role } = data;
                 dispatch(setEmail(values.email));
                 // Store the token and role in cookies
-                Cookies.set('jwt', token,{expires: 1/24});
-                Cookies.set('role', role, {expires: 1/24});
+                Cookies.set('jwt', token);
+                Cookies.set('role', role);
+                const currentTime = new Date();
+                const expirationTime = new Date(currentTime.getTime() + 60 * 60 * 1000); // expiration to 1hour
+                Cookies.set('LoginUTC', currentTime.toISOString(), { expires: expirationTime });
                 toast.success("Login Successful");
                 resetForm({
                     values: {
@@ -64,7 +67,7 @@ const LoginForm = ({ nursery }) => {
                 });
                 router.push("/")
             } else {
-                toast.error(await response.text())
+                toast.error("Login unsucessfull, provided information does not match our records")
                 dispatch(setNurseryId(""))
                 resetForm({
                     values: {
@@ -73,10 +76,9 @@ const LoginForm = ({ nursery }) => {
                         password: '',
                     },
                 });
-                console.log("after",nuseryId)
+                console.log("after", nuseryId)
             }
         } catch (error) {
-            // Handle login error
             console.error('Login failed:', error);
         }
     };
@@ -84,20 +86,20 @@ const LoginForm = ({ nursery }) => {
 
     return (
         <>
-        <Toaster/>
+            <Toaster />
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
                 onSubmit={onSubmit}
             >
                 <Form className="max-w-md mx-auto mt-10 p-6 bg-white rounded-md shadow-md">
-                <img
-                src={`data:image/png;base64, ${nursery.image}`}
-                alt="Nursery Logo"
-                className="nursery-logo"
-            />
+                    <img
+                        src={`data:image/png;base64, ${nursery.image}`}
+                        alt="Nursery Logo"
+                        className="nursery-logo"
+                    />
                     <div className="block mb-2">
-                        <label  htmlFor="email">NurseryId:</label>
+                        <label htmlFor="email">NurseryId:</label>
                         <Field className="w-full mt-1 p-2 border border-gray-300 rounded-md" type="text" id="nurseryId" name="nurseryId" disabled={true} />
                     </div>
                     <div className="block mb-2">
@@ -118,6 +120,8 @@ const LoginForm = ({ nursery }) => {
                     >
                         Login
                     </button>
+                    <a className='p-2 mt-5 text-blue-500' href='/login'>Not the right nursery?</a>
+                    <a className='p-2 mt-5 text-blue-500' href={`/resetPassword/${nursery.nurseryId}`}>Forgot Password?</a>
                 </Form>
             </Formik>
         </>

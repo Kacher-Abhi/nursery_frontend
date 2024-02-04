@@ -13,6 +13,8 @@ import ImageUploader from "./ImageUploader"
 import axios from "axios";
 import toast from "react-hot-toast";
 import ImageInput from "@/components/FormInputs/ImageInput";
+import Cookies from "js-cookie";
+import { headers } from "@/next.config";
 
 // components\MultiStepForm\StepForms\ImageUploader
 
@@ -47,6 +49,7 @@ export default function NurseryCreationForm({setNursery}) {
       for (const key in data) {
         formData.append(key, data[key]);
       }
+      const jwt = Cookies.get('jwt');
       const response = await axios.post(`http://localhost:8080/nurseries/createNursery`, formData);
       setNursery(data['nurseryId'])
       return {flag : true, message : "Nursery Created"};
