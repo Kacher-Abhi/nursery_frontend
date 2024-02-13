@@ -3,7 +3,7 @@
 const { createSlice } = require("@reduxjs/toolkit");
 
 const initialState = {
-    nurseryId: "nurs28",
+    nurseryId: "nurse1",
     currentStep: 1
 };
 const NurserySlice = createSlice({

@@ -1,0 +1,109 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif;
+    background-image: linear-gradient(to right, #FC766AFF, #5B84B1FF);
+    color: #ffffff;
+  }
+  
+  .container {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+    text-align: center;
+  }
+  
+  .caretakers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-gap: 30px;
+    padding: 20px;
+  
+  }
+  
+  .caretaker-container {
+    border-radius: 40px;
+    height: 120px;
+    padding: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(60px);
+  
+  }
+  
+  .caretaker-container:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+  
+  .caretaker-info {
+    margin-bottom: 8px;
+  }
+  
+  .caretaker-info p {
+    margin: 4px 0;
+  }
+  
+  .nursery-dropdown {
+    margin-bottom: 16px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 16px;
+    background-color: rgba(248, 252, 253, 0.2);
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+    color: rgb(5, 21, 24);
+    font-size: 16px;
+    text-align: center;
+  }
+  
+  .popup-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent background */
+    width: 60%;
+    max-width: 600px;
+    padding: 20px;
+    border-radius: 8px;
+    z-index: 999;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(30px);
+    text-align: center;
+  
+  }
+  
+  .popup-content {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px); /* Card background color */
+    padding: 20px;
+    border-radius: 8px;
+    color: #ffffff;
+    backdrop-filter: blur(90px); /* Card background blur */
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #ffffff;
+  }
+  
+  .caretakers-page-container {
+    position: relative;
+  }
+  
+  .dropdown-container {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-left: 550px;
+  }

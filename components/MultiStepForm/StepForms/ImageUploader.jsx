@@ -22,7 +22,6 @@ const ImageUploader = ({ onImageChange, label  }) => {
     <div>
       <label className="block text-sm font-medium leading-6 text-gray-900 dark:text-slate-50 mb-2 ">{label || 'Logo'}</label>
         <input
-          name='image'
           type="file"
           accept="image/*"
           onChange={handleImageChange}

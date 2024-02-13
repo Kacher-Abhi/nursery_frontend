@@ -148,7 +148,8 @@ export default function NurseryCreationForm({setNursery}) {
           endpoint = ""
 
      /> */}
-      <ImageUploader onImageChange={handleImageChange} label="Nursery Logo"/>
+      <ImageUploader onImageChange={handleImageChange} label="Nursery Logo"
+      name='image'/>
       </div>
 
       <NavButtons />

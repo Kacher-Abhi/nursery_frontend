@@ -1,12 +1,9 @@
 "use client";
-import { PatientsTable } from "@/components/Tables/PatientsTable";
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import "./globals.css";
-import { CaretakerTable } from "@/components/Tables/CaretakersTable";
 
-function PatientsPage() {
+function CaretakersPage() {
   const [caretakersData, setCaretakersData] = useState([]);
   const [nurseryIds, setNurseryIds] = useState([]);
   const [selectedNurseryId, setSelectedNurseryId] = useState("All");
@@ -36,7 +33,7 @@ function PatientsPage() {
   };
 
   const fetchCaretakersData = () => {
-    fetch("http://localhost:8080/patients")
+    fetch("http://localhost:8080/caretakers")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -112,15 +109,47 @@ function PatientsPage() {
       </div>{" "}
       <div className="caretakers-grid">
         {" "}
-        <PatientsTable  nursery={displayCaretakersByNursery(selectedNurseryId)}/>
-
         {displayCaretakersByNursery(selectedNurseryId).map((caretaker) => (
-          <>
-          </>
+          <div
+            key={caretaker.caretakerId}
+            className="caretaker-container"
+            onClick={() => handleCaretakerClick(caretaker)}
+          >
+            <p> Caretaker ID: {caretaker.caretakerId} </p>{" "}
+            <p> Name: {caretaker.name} </p>{" "}
+          </div>
         ))}{" "}
       </div>{" "}
+      {selectedCaretaker && (
+        <>
+          <div className="backdrop" onClick={handleClosePopup}>
+            {" "}
+          </div>{" "}
+          <div className="popup-container">
+            <div className="popup-content">
+              <span className="close-button" onClick={handleClosePopup}>
+                {" "}
+                X{" "}
+              </span>{" "}
+              <p> Caretaker ID: {selectedCaretaker.caretakerId} </p>{" "}
+              <p> Name: {selectedCaretaker.name} </p>{" "}
+              <p> Age: {selectedCaretaker.age} </p>{" "}
+              <p> Phone Number: {selectedCaretaker.phoneNumber} </p>{" "}
+              <p> Email: {selectedCaretaker.email} </p>{" "}
+              <p> Sex: {selectedCaretaker.sex} </p>{" "}
+              <p>
+                {" "}
+                Years of Experience: {selectedCaretaker.yearsOfExperience}{" "}
+              </p>{" "}
+              <p> Designation: {selectedCaretaker.designation} </p>{" "}
+              <p> Average Rating: {selectedCaretaker.averageRating} </p>{" "}
+              <p> Nursery ID: {selectedCaretaker.nursery.nurseryId} </p>{" "}
+            </div>{" "}
+          </div>{" "}
+        </>
+      )}{" "}
     </div>
   );
 }
 
-export default PatientsPage;
+export default CaretakersPage;
