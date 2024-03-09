@@ -50,7 +50,7 @@ export default function NurseryCreationForm({setNursery}) {
         formData.append(key, data[key]);
       }
       const jwt = Cookies.get('jwt');
-      const response = await axios.post(`http://localhost:8080/nurseries/createNursery`, formData);
+      const response = await axios.post(`${process.env.API_HOST}/nurseries/createNursery`, formData);
       setNursery(data['nurseryId'])
       return {flag : true, message : "Nursery Created"};
     } catch (error) {

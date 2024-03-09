@@ -45,7 +45,7 @@ export default function AdminCreationForm({ setEmail, nursery }) {
       for (const key in data) {
         formData.append(key, data[key]);
       }
-      const response = await axios.post('http://localhost:8080/admins/createAdmin', formData, {
+      const response = await axios.post(`${process.env.API_HOST}/admins/createAdmin`, formData, {
         headers: {
           'accept': 'application/json',
           'content-type': 'application/json;charset=utf-8',

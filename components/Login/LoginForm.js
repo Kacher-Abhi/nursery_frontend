@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
+import { DefaultImage } from '../application/defaultImage';
 
 const LoginForm = ({ nursery }) => {
     const nuseryId = useSelector((store) => store.currentUser.nurseryId);
@@ -93,11 +94,14 @@ const LoginForm = ({ nursery }) => {
                 onSubmit={onSubmit}
             >
                 <Form className="max-w-md mx-auto mt-10 p-6 bg-white rounded-md shadow-md">
+                    {nursery.image !=null ? 
                     <img
                         src={`data:image/png;base64, ${nursery.image}`}
                         alt="Nursery Logo"
                         className="nursery-logo"
                     />
+                    :
+                    <DefaultImage/>}
                     <div className="block mb-2">
                         <label htmlFor="email">NurseryId:</label>
                         <Field className="w-full mt-1 p-2 border border-gray-300 rounded-md" type="text" id="nurseryId" name="nurseryId" disabled={true} />

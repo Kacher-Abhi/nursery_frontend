@@ -57,7 +57,7 @@ export default function TestForm({ nursery }) {
         console.log("FormData:", formData);
 
         const response = await axios.post(
-            "http://localhost:8080/tests/createTest",
+            `${process.env.API_HOST}/tests/createTest`,
             formData);
 
         return { flag: true, message: "Test Added" };

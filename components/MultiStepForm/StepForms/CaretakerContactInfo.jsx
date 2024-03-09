@@ -41,7 +41,7 @@ export default function CaretakerContactInfo({ setEmail }) {
             for (const key in data) {
                 formData.append(key, data[key]);
             }
-            const response = await axios.post('http://localhost:8080/caretakers/createCaretaker', formData, {
+            const response = await axios.post(`${process.env.API_HOST}/caretakers/createCaretaker`, formData, {
                 headers: {
                     'accept': 'application/json',
                     'content-type': 'application/json;charset=utf-8',

@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // import "./globals.css";
 import { CaretakerTable } from "@/components/Tables/CaretakersTable";
+import ProtectedPage from "@/components/application/protectedPage";
 
 function PatientsPage() {
   const [caretakersData, setCaretakersData] = useState([]);
@@ -24,7 +25,7 @@ function PatientsPage() {
   }, [selectedNurseryId]);
 
   const fetchNurseryIds = () => {
-    fetch("http://localhost:8080/nurseries")
+    fetch(`${process.env.API_HOST}/nurseries`)
       .then((response) => response.json())
       .then((data) => {
         const ids = data.map((nursery) => nursery.nurseryId);
@@ -36,7 +37,7 @@ function PatientsPage() {
   };
 
   const fetchCaretakersData = () => {
-    fetch("http://localhost:8080/patients")
+    fetch(`${process.env.API_HOST}/patients`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -93,6 +94,7 @@ function PatientsPage() {
   };
 
   return (
+    <ProtectedPage allowedRoles={['ROLE_SUPER_ADMIN','ROLE_ADMIN','ROLE_CARETAKER']}>
     <div className="caretakers-page-container">
       <ToastContainer />
       <div className="dropdown-container">
@@ -120,6 +122,7 @@ function PatientsPage() {
         ))}{" "}
       </div>{" "}
     </div>
+    </ProtectedPage>
   );
 }
 

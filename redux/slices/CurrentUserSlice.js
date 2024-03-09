@@ -2,7 +2,8 @@ const { createSlice } = require("@reduxjs/toolkit");
 
 const initialState = {
     nurseryId: "",
-    email:""
+    username:null,
+    userRole: null
 };
 const CurrentUserSlice = createSlice({
     name: "nursery",
@@ -13,7 +14,7 @@ const CurrentUserSlice = createSlice({
         },
 
         setEmail: (state, action) => {
-            state.email = action.email;
+            state.username = action.email;
         },
     },
 });

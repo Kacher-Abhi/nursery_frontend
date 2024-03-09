@@ -21,7 +21,7 @@ function CaretakersPage() {
   }, [selectedNurseryId]);
 
   const fetchNurseryIds = () => {
-    fetch("http://localhost:8080/nurseries")
+    fetch(`${process.env.API_HOST}/nurseries`)
       .then((response) => response.json())
       .then((data) => {
         const ids = data.map((nursery) => nursery.nurseryId);
@@ -33,7 +33,7 @@ function CaretakersPage() {
   };
 
   const fetchCaretakersData = () => {
-    fetch("http://localhost:8080/caretakers")
+    fetch(`${process.env.API_HOST}/caretakers`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");

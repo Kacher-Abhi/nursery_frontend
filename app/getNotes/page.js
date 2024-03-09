@@ -1,4 +1,5 @@
 "use client";
+import ProtectedPage from "@/components/application/protectedPage";
 import { useEffect, useState } from "react";
 
 function NotesTable (patientId, nurseryId, month ) {
@@ -11,13 +12,13 @@ function NotesTable (patientId, nurseryId, month ) {
 
         if (patientId && nurseryId && month) {
           // If all parameters are provided, call the getDetailsByMonthAndYear endpoint
-          url = "http://localhost:8080/notes/${patientId}/${nurseryId}/${month}";
+          url = `${process.env.API_HOST}/notes/${patientId}/${nurseryId}/${month}`;
         } else if (patientId && nurseryId) {
           // If patientId and nurseryId are provided, call the getDetailsByPatientIdAndNurseryId endpoint
-          url = "http://localhost:8080/notes/${patientId}/${nurseryId}";
+          url = `${process.env.API_HOST}/notes/${patientId}/${nurseryId}`;
         } else {
           // If no specific parameters are provided, fetch all notes using the getAllNotes endpoint
-          url = "http://localhost:8080/notes";
+          url = `${process.env.API_HOST}/notes`;
         }
 
         const response = await fetch(url);
@@ -34,12 +35,14 @@ function NotesTable (patientId, nurseryId, month ) {
 
   return (
     <>
+    <ProtectedPage allowedRoles={['ROLE_SUPER_ADMIN','ROLE_ADMIN','ROLE_PATIENT']}>
       <div className="flex flex-wrap">
         {notesData &&
           notesData.map((note) => (
             <NotesCard key={note.notesId} note={note} />
           ))}
       </div>
+      </ProtectedPage>
     </>
   );
 };

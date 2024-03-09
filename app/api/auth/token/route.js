@@ -1,6 +1,4 @@
-import cookie from "cookie";
-import axios from 'axios';
-import Cookies from "js-cookie";
+import { cookies } from 'next/headers'
 
 export async function POST(request) {
   // const body = await req.json()
@@ -20,16 +18,12 @@ export async function POST(request) {
     });
     if(response.ok){
       console.log("setting cookie")
-      // request.setHeader(
-      //   "Set-Cookie",
-      //   cookie.serialize("token", response.data, {
-      //     httpOnly: true,
-      //     secure: process.env.NODE_ENV !== "development",
-      //     maxAge: 60 * 60,
-      //     sameSite: "strict",
-      //     path: "/",
-      //   })
-      //   );
+      cookies().set({
+        name: 'token',
+        value: response.data,
+        httpOnly: true,
+        path: '/',
+      })
       returnRes = await response.json()
       // console.log(returnRes);
      return new Response(JSON.stringify(returnRes), {

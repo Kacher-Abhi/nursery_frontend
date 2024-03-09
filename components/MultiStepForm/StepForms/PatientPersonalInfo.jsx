@@ -50,7 +50,7 @@ export default function PatientPersonalINfo({ setEmail, nursery }) {
         }
         formData.append(key, data[key]);
       }
-      const response = await axios.post('http://localhost:8080/patients/createPatient', formData, {
+      const response = await axios.post(`${process.env.API_HOST}/patients/createPatient`, formData, {
         headers: {
           'accept': 'application/json',
           'content-type': 'application/json;charset=utf-8',

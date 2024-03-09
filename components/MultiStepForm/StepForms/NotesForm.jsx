@@ -37,7 +37,7 @@ export default function NotesForm({ setEmail }) {
         formData.append(key, data[key]);
       }
       const response = await axios.post(
-        "http://localhost:8080/notes/createNotes",
+        `${process.env.API_HOST}/notes/createNotes`,
         formData,
         {
           headers: {
